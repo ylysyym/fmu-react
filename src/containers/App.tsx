@@ -5,7 +5,7 @@ import { ConnectedStatusBar } from "./StatusBar";
 import { ConnectedTabBar } from "./TabBar"
 
 import { TallyPanel } from "./TallyPanel"
-import { ConfigPanel } from "./ConfigPanel"
+import { ConnectedConfigPanel } from "./ConfigPanel"
 import { SettingsPanel } from "./SettingsPanel"
 
 
@@ -28,7 +28,7 @@ class App extends React.Component<Props, {}> {
             case 1:
                 return <TallyPanel />
             case 2:
-                return <ConfigPanel />
+                return <ConnectedConfigPanel />
             case 3:
                 return <SettingsPanel />
             default:
