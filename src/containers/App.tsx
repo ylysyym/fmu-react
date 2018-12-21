@@ -4,7 +4,9 @@ import { connect } from "react-redux"
 import { ConnectedStatusBar } from "./StatusBar";
 import { ConnectedTabBar } from "./TabBar"
 
+import { TallyPanel } from "./TallyPanel"
 import { ConfigPanel } from "./ConfigPanel"
+import { SettingsPanel } from "./SettingsPanel"
 
 
 
@@ -24,11 +26,11 @@ class App extends React.Component<Props, {}> {
     getDisplay(tab: number): JSX.Element {
         switch (tab) {
             case 1:
-                return <a>Hi</a>
+                return <TallyPanel />
             case 2:
                 return <ConfigPanel />
             case 3:
-                return <div>3</div>
+                return <SettingsPanel />
             default:
                 return null;
         }
