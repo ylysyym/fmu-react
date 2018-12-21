@@ -4,7 +4,7 @@ const fs = require("fs");
 const userscriptHeader = fs.readFileSync("./userscriptHeader.js", "utf-8");
 const styleRules = fs.readFileSync("./src/style.css", "utf-8");
 
-module.exports = [{ //Build for Chrome extension
+module.exports = [/*{ //Build for Chrome extension
     entry: "./src/index.tsx",
     output: {
         filename: "fmu-chrome.js",
@@ -42,7 +42,7 @@ module.exports = [{ //Build for Chrome extension
         "react": "React",
         "react-dom": "ReactDOM"
     }
-},
+},*/
 { // Build for userscript
     entry: "./src/index.tsx",
 
