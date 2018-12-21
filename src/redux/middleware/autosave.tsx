@@ -1,4 +1,5 @@
-import { START_GAME, STOP_GAME, SEND_PAGE_DATA } from "../modules/config"
+import { START_GAME, STOP_GAME } from "../modules/config"
+import { SEND_PAGE_DATA } from "../modules/data"
 
 /**
  * Saves store to localStorage after each action

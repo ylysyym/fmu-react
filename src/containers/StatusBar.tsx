@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux"
-import { startGame, stopGame, sendPageData } from "../redux/modules/config"
+import { startGame, stopGame } from "../redux/modules/config"
+import { sendPageData } from "../redux/modules/data"
 
 interface Props {
     isGameActive: boolean,
@@ -21,8 +22,9 @@ class StatusBar extends React.Component<Props, {}> {
 
     render = () => {
         return <div>
-            <div>Forum Mafia Utilities</div>
+            <div id="fmu-title">Forum Mafia Utilities</div>
             <button
+                id="fmu-game-toggle"
                 onClick={this.handleClick}
                 className={this.props.isGameActive == true ? "active" : "inactive"}>
                 {this.props.isGameActive == true ? "ON" : "OFF"}

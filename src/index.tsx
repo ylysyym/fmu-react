@@ -4,7 +4,8 @@ import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux"
 
 import { ConnectedApp } from "./containers/App"
-import { reducer, sendPageData } from "./redux/modules/config"
+import combineReducer from "./redux/modules/reducer"
+import { sendPageData } from "./redux/modules/data"
 import { autosave } from "./redux/middleware/autosave"
 
 let threadId = getThreadId();
@@ -31,7 +32,7 @@ function getSavedData(): any {
     }
 }
 
-const store = createStore(reducer, getSavedData(), applyMiddleware(autosave(threadId)));
+const store = createStore(combineReducer, getSavedData(), applyMiddleware(autosave(threadId)));
 
 window.onload = function () {
     if (store.getState().config.isActive === true) {
