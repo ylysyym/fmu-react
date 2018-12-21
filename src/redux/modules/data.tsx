@@ -15,8 +15,11 @@ export function sendPageData() {
             });
         });
     });
+    const pageStr: string = document.querySelector(".pagenav td.vbmenu_control:first-child").textContent;
+    const pageNum: number = pageStr ? parseInt(pageStr.split(" ")[1]) : 1;
     return {
         type: SEND_PAGE_DATA,
+        page: pageNum,
         content: pageData
     }
 }
@@ -26,7 +29,7 @@ export function dataReducer(state: any = {}, action: any) {
         case SEND_PAGE_DATA:
             return Object.assign({}, state, {
                 ...state,
-                1: action.content
+                [action.page]: action.content
             });
 
         default:
