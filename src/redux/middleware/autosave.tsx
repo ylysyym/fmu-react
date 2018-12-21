@@ -8,17 +8,25 @@ import { SEND_PAGE_DATA } from "../modules/data"
 export const autosave = (uid: number) => {
     return (store: any) => (next: any) => (action: any) => {
         let result = next(action);
-        if (action.type == START_GAME || action.type == ADD_MODERATOR || action.type == REMOVE_MODERATOR) {
-            localStorage.setItem("config" + String(uid), JSON.stringify(store.getState().config));
-        } else if (action.type == STOP_GAME) {
-            try {
-                localStorage.removeItem("config" + String(uid));
-                localStorage.removeItem("data" + String(uid));
-            } catch (err) {
-                // Do nothing
-            }
-        } else if (action.type == SEND_PAGE_DATA) {
-            localStorage.setItem("data" + String(uid), JSON.stringify(store.getState().data));
+        switch (action.type) {
+            case START_GAME:
+            case ADD_MODERATOR:
+            case REMOVE_MODERATOR:
+                localStorage.setItem("config" + String(uid), JSON.stringify(store.getState().config));
+                break;
+            case STOP_GAME:
+                try {
+                    localStorage.removeItem("config" + String(uid));
+                    localStorage.removeItem("data" + String(uid));
+                } catch (err) {
+                    // Do nothing
+                }
+                break;
+            case SEND_PAGE_DATA:
+                localStorage.setItem("data" + String(uid), JSON.stringify(store.getState().data));
+                break;
+            default:
+                break;
         }
         return result;
     }

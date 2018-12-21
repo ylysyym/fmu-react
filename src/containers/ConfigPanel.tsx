@@ -26,11 +26,13 @@ class ConfigPanel extends React.Component<Props, {}> {
     render = () => {
         const modList = this.props.modList.map((mod: string) =>
             <GameModName name={mod} removeMod={this.props.removeMod}></GameModName>);
-        return <div>
-            <span>Game mod(s)</span>
-            {modList}
-            <button onClick={this.addMod}>+</button>
-        </div>;
+        return (
+            <div>
+                <span>Game mod(s)</span>
+                {modList}
+                <button onClick={this.addMod}>+</button>
+            </div>
+        );
     }
 }
 

@@ -21,15 +21,17 @@ class StatusBar extends React.Component<Props, {}> {
     }
 
     render = () => {
-        return <div>
-            <div id="fmu-title">Forum Mafia Utilities</div>
-            <button
-                id="fmu-game-toggle"
-                onClick={this.handleClick}
-                className={this.props.isGameActive == true ? "active" : "inactive"}>
-                {this.props.isGameActive == true ? "ON" : "OFF"}
-            </button>
-        </div>;
+        return (
+            <div>
+                <div id="fmu-title">Forum Mafia Utilities</div>
+                <button
+                    id="fmu-game-toggle"
+                    onClick={this.handleClick}
+                    className={this.props.isGameActive == true ? "active" : "inactive"}>
+                    {this.props.isGameActive == true ? "ON" : "OFF"}
+                </button>
+            </div>
+        );
     }
 }
 

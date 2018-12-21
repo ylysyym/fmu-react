@@ -10,7 +10,7 @@ export class GameModName extends React.Component<Props, {}> {
         this.props.removeMod(this.props.name);
     }
 
-    render() {
+    render = () => {
         return (
             <button
                 onClick={this.handleClick}>

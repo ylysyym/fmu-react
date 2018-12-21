@@ -8,15 +8,6 @@ import { TallyPanel } from "./TallyPanel"
 import { ConnectedConfigPanel } from "./ConfigPanel"
 import { SettingsPanel } from "./SettingsPanel"
 
-
-
-function mapStateToProps(state: any) {
-    return {
-        isActive: state.config.isActive,
-        activeTab: state.ui.tab
-    };
-}
-
 interface Props {
     isActive: boolean;
     activeTab: number;
@@ -27,26 +18,38 @@ class App extends React.Component<Props, {}> {
         switch (tab) {
             case 1:
                 return <TallyPanel />
+
             case 2:
                 return <ConnectedConfigPanel />
+
             case 3:
                 return <SettingsPanel />
+
             default:
                 return null;
         }
     }
 
     render = () => {
-        return <div>
-            <ConnectedStatusBar />
-            {this.props.isActive && (
-                <div>
-                    <ConnectedTabBar />
-                    {this.getDisplay(this.props.activeTab)}
-                </div>
-            )}
-        </div>;
+        return (
+            <div>
+                <ConnectedStatusBar />
+                {this.props.isActive && (
+                    <div>
+                        <ConnectedTabBar />
+                        {this.getDisplay(this.props.activeTab)}
+                    </div>
+                )}
+            </div>
+        );
     }
+}
+
+function mapStateToProps(state: any) {
+    return {
+        isActive: state.config.isActive,
+        activeTab: state.ui.tab
+    };
 }
 
 export const ConnectedApp = connect(mapStateToProps)(App)

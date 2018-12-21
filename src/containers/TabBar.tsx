@@ -10,6 +10,30 @@ interface Props {
     switchSettingsTab: any
 }
 
+class TabBar extends React.Component<Props, {}> {
+    render = () => {
+        return (
+            <div id="fmu-tab-bar">
+                <button
+                    className={this.props.activeTab == 1 && "selected"}
+                    onClick={this.props.switchTallyTab}>
+                    Tally
+                </button>
+                <button
+                    className={this.props.activeTab == 2 && "selected"}
+                    onClick={this.props.switchConfigTab}>
+                    Configure
+                </button>
+                <button
+                    className={this.props.activeTab == 3 && "selected"}
+                    onClick={this.props.switchSettingsTab}>
+                    Settings
+                </button>
+            </div>
+        );
+    }
+}
+
 function mapStateToProps(state: any) {
     return {
         activeTab: state.ui.tab
@@ -27,34 +51,6 @@ function mapDispatchToProps(dispatch: any, ownProps: any) {
         switchSettingsTab: () => {
             dispatch(switchSettingsTab())
         }
-    }
-}
-
-class TabBar extends React.Component<Props, {}> {
-    /*switchTallyTab = () => {
-        this.props.switchTallyTab();
-    };
-
-    switchConfigTab = () => {
-        this.props.switchConfigTab();
-    };
-
-    switchSettingsTab = () => {
-        this.props.switchSettingsTab();
-    };*/
-
-    render = () => {
-        return <div id="fmu-tab-bar">
-            <button
-                className={this.props.activeTab == 1 && "selected"}
-                onClick={this.props.switchTallyTab}>Tally</button>
-            <button
-                className={this.props.activeTab == 2 && "selected"}
-                onClick={this.props.switchConfigTab}>Configure</button>
-            <button
-                className={this.props.activeTab == 3 && "selected"}
-                onClick={this.props.switchSettingsTab}>Settings</button>
-        </div>;
     }
 }
 
