@@ -2,20 +2,20 @@ import * as React from "react"
 
 interface Props {
     name: string,
-    removeMod: (mod: string) => void
+    removePlayer: (player: string) => void
 }
 
-export class GameModName extends React.Component<Props, {}> {
+export class PlayerName extends React.Component<Props, {}> {
     handleClick = () => {
-        this.props.removeMod(this.props.name);
+        this.props.removePlayer(this.props.name);
     }
 
     render = () => {
         return (
-            <button
+            <li
                 onClick={this.handleClick}>
                 {this.props.name}
-            </button>
+            </li>
         );
     }
 }
