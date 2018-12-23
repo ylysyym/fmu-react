@@ -7,16 +7,10 @@ import { ConnectedApp } from "./containers/App"
 import combineReducer from "./redux/modules/reducer"
 import { sendPageData } from "./redux/modules/data"
 import { autosave } from "./redux/middleware/autosave"
-
-let threadId = getThreadId();
-
-function getThreadId(): number {
-    let url = new URL(window.location.href);
-    let threadId = parseInt(url.searchParams.get("t"));
-    return threadId;
-}
+import { getThreadId } from "./utils/threadinfo"
 
 function getSavedData(): any {
+    const threadId = getThreadId();
     try {
         let savedConfig = localStorage.getItem("config" + String(threadId));
         if (savedConfig === null) {
@@ -33,6 +27,7 @@ function getSavedData(): any {
 }
 
 const store = createStore(combineReducer, getSavedData(), applyMiddleware(autosave(threadId)));
+const threadId = getThreadId();
 
 window.onload = function () {
     if (store.getState().config.isActive === true) {

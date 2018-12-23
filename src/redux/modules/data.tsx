@@ -1,3 +1,5 @@
+import { getPageNumber } from "../../utils/threadinfo"
+
 export const SEND_PAGE_DATA = "fmu/data/SEND_PAGE_DATA";
 
 export function sendPageData() {
@@ -15,11 +17,10 @@ export function sendPageData() {
             });
         });
     });
-    const pageStr: string = document.querySelector(".pagenav td.vbmenu_control:first-child").textContent;
-    const pageNum: number = pageStr ? parseInt(pageStr.split(" ")[1]) : 1;
+    const pageNumber = getPageNumber();
     return {
         type: SEND_PAGE_DATA,
-        page: pageNum,
+        page: pageNumber,
         content: pageData
     }
 }
