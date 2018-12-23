@@ -7,6 +7,7 @@ import { ConnectedApp } from "./containers/App"
 import combineReducer from "./redux/modules/reducer"
 import { sendPageData } from "./redux/modules/data"
 import { autosave } from "./redux/middleware/autosave"
+import { autoPopulateMod } from "./redux/middleware/autopopulate";
 import { getThreadId } from "./utils/threadinfo"
 
 function getSavedData(): any {
@@ -26,8 +27,8 @@ function getSavedData(): any {
     }
 }
 
-const store = createStore(combineReducer, getSavedData(), applyMiddleware(autosave(threadId)));
 const threadId = getThreadId();
+const store = createStore(combineReducer, getSavedData(), applyMiddleware(autosave(threadId), autoPopulateMod));
 
 window.onload = function () {
     if (store.getState().config.isActive === true) {
