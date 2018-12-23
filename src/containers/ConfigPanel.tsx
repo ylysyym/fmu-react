@@ -19,8 +19,6 @@ class ConfigPanel extends React.Component<Props, {}> {
         }
     }
 
-    removeMod = (mod: string) => {
-        this.props.removeMod(mod);
     }
 
     render = () => {
