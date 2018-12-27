@@ -1,3 +1,25 @@
 #fmu-tab-bar .selected {
     font-weight: bold;
 }
+
+.voter {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.vote-target {
+    display: inline-block;
+    font-weight: bold;
+}
+
+.vote-count {
+    display: inline-block;
+}
+
+.voter .player-name {
+    display: inline-block;
+}
+
+.voter .post-number {
+    display: inline-block;
+}

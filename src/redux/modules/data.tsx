@@ -2,18 +2,33 @@ import { getPageNumber } from "../../utils/threadinfo"
 
 export const SEND_PAGE_DATA = "fmu/data/SEND_PAGE_DATA";
 
+export interface PostData {
+    post: number,
+    user: string,
+    content: string,
+    time: string,
+    link: string
+}
+
 export function sendPageData() {
-    let pageData: any = [];
+    let pageData: PostData[] = [];
     let posts = document.querySelectorAll(".page");
     posts.forEach((post) => {
         let boldTextNodes = post.querySelectorAll(".alt1 > div > b");
         boldTextNodes.forEach((boldText) => {
-            let username: string = post.querySelector(".bigusername").textContent;
-            let postNumber: number = parseInt(post.querySelector("td > a > strong").textContent);
+            const textContent: string = boldText.textContent;
+            if (!textContent.toLowerCase().includes("vote")) {
+                // Instance of bold text does not have keyword we are interested in
+                return;
+            }
+            const username: string = post.querySelector(".bigusername").textContent;
+            const postNumber: number = parseInt(post.querySelector("td > a > strong").textContent);
             pageData.push({
                 post: postNumber,
                 user: username,
-                content: boldText.textContent
+                content: textContent,
+                time: "", // TODO: Implement
+                link: "" // TODO: Implement
             });
         });
     });
