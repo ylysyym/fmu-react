@@ -3,7 +3,7 @@ import { getPageNumber } from "../../utils/threadinfo"
 export const SEND_PAGE_DATA = "fmu/data/SEND_PAGE_DATA";
 
 export interface PostData {
-    post: number,
+    postNumber: number,
     user: string,
     content: string,
     time: string,
@@ -24,7 +24,7 @@ export function sendPageData() {
             const username: string = post.querySelector(".bigusername").textContent;
             const postNumber: number = parseInt(post.querySelector("td > a > strong").textContent);
             pageData.push({
-                post: postNumber,
+                postNumber: postNumber,
                 user: username,
                 content: textContent,
                 time: "", // TODO: Implement

@@ -7,94 +7,130 @@ enum VoteKeyword {
 
 enum VoteType {
     UNVOTE = 1,
-    VOTE = 2,
-    UNVOTE_AND_VOTE = 3
+    VOTE = 2
 }
 
 interface Vote {
     type: VoteType,
-    user: string
+    user: string,
     target: string,
-    post: number
+    postNumber: number
 }
 
-export function parsePageDataToVotes(pageData: { [page: number]: PostData }) {
+interface DetailedTally {
+    [voteTarget: string]: {
+
+    }
+}
+
+export function convertPageDataToVotes(pageData: { [page: number]: PostData }): Vote[] {
     let combinedPageData: PostData[] = [];
-    for (let x in pageData) {
-        combinedPageData = combinedPageData.concat(pageData[x]);
+    for (let page in pageData) {
+        combinedPageData = combinedPageData.concat(pageData[page]);
     }
 
     let result: Vote[] = [];
-    for (let voteCandidate of combinedPageData) {
-        let voteType: VoteType;
-        let voteString: string = voteCandidate.content.toLowerCase();
-        let voteTarget: string = "";
-        if (voteString.includes(VoteKeyword.UNVOTE)) {
-            if (voteString.replace("/" + VoteKeyword.UNVOTE + "/g", "").includes(VoteKeyword.VOTE)) {
-                if (voteString.split(VoteKeyword.UNVOTE).pop().length < voteString.split(VoteKeyword.VOTE).pop().length) {
-                    voteType = VoteType.UNVOTE_AND_VOTE;
-                } else {
-                    // Vote and unvote, aka unvote
-                    voteType = VoteType.UNVOTE;
-                }
-            } else {
-                voteType = VoteType.UNVOTE;
-            }
-        } else if (voteString.includes(VoteKeyword.VOTE)) {
-            voteType = VoteType.VOTE;
-            voteTarget = voteString.split(VoteKeyword.VOTE).pop().trim();
-        } else {
-            // Not a vote or unvote
-            continue;
+    for (const item of combinedPageData) {
+        const line: string = item.content.toLowerCase();
+        if (containsUnvote(line)) {
+            result.push({
+                user: item.user,
+                type: VoteType.UNVOTE,
+                target: null,
+                postNumber: item.postNumber
+            });
         }
-
-        result.push({
-            user: voteCandidate.user,
-            type: voteType,
-            target: voteTarget,
-            post: voteCandidate.post
-        });
+        if (containsVote(line)) {
+            result.push({
+                user: item.user,
+                type: VoteType.VOTE,
+                target: getVoteTarget(line),
+                postNumber: item.postNumber
+            });
+        }
     }
+
     result.sort((a: Vote, b: Vote) => {
-        return a.post - b.post;
+        return a.postNumber - b.postNumber;
     });
     return result;
 }
 
+function getVoteTarget(line: string): string {
+    return line.split(VoteKeyword.VOTE).pop().trim();
+}
+
+// Votes that come before an unvote do not count
+function containsVote(line: string): boolean {
+    return line.split(VoteKeyword.UNVOTE).pop().includes(VoteKeyword.VOTE);
+}
+
+function containsUnvote(line: string): boolean {
+    return line.includes(VoteKeyword.UNVOTE);
+}
+
 export function getCurrentVoteTally(votes: Vote[], a: number, b: number) {
-    let voteMap: any = {};
-    let alreadyVoted: any = {};
+    let tallyContainer = {};
+    let voteRecord: any = {};
+    let latestVote: any = {};
     for (let vote of votes) {
-        if (vote.post < a) {
+        if (vote.postNumber < a) {
             continue;
         }
-        if (vote.post > b) {
+        if (vote.postNumber > b) {
             break;
         }
-        if (!(vote.target in voteMap)) {
-            voteMap[vote.target] = [];
+
+        if (!(vote.user in latestVote)) {
+            if (vote.type === VoteType.UNVOTE) {
+                continue;
+            }
         }
-        if (vote.type == VoteType.UNVOTE) {
-            if (vote.user in alreadyVoted) {
-                voteMap[alreadyVoted[vote.user]] = voteMap[alreadyVoted[vote.user]].filter((voter: any) => voter.user !== vote.user);
+
+        if (vote.target === latestVote[vote.user]) {
+            continue;
+        }
+
+        if (vote.user in latestVote) {
+            let previousVote = latestVote[vote.user];
+            let recentRecord = voteRecord[previousVote][vote.user].pop();
+            if (recentRecord) {
+                recentRecord.end = vote.postNumber;
+                voteRecord[previousVote][vote.user].push(recentRecord);
             }
-            delete alreadyVoted[vote.user];
-        } else {
-            if (vote.user in alreadyVoted) {
-                voteMap[alreadyVoted[vote.user]] = voteMap[alreadyVoted[vote.user]].filter((voter: any) => voter.user !== vote.user);
+            delete latestVote[vote.user];
+        }
+
+        if (vote.type === VoteType.VOTE) {
+            if (!(vote.target in voteRecord)) {
+                voteRecord[vote.target] = {
+                    [vote.user]: []
+                };
+            } else if (!(vote.user in voteRecord[vote.target])) {
+                voteRecord[vote.target][vote.user] = [];
             }
-            alreadyVoted[vote.user] = vote.target;
-            voteMap[vote.target].push({
-                user: vote.user,
-                post: vote.post
+            latestVote[vote.user] = vote.target;
+            voteRecord[vote.target][vote.user].push({
+                start: vote.postNumber
             });
         }
     }
+
     let sortedTally = [];
-    for (let voteTarget in voteMap) {
+    for (let voteTarget in voteRecord) {
+        let voters = [];
+        for (let voter in voteRecord[voteTarget]) {
+            voters.push({
+                user: voter,
+                times: voteRecord[voteTarget][voter]
+            });
+        }
+        voters.sort((a, b) => {
+            return a.times[a.times.length - 1].start - b.times[b.times.length - 1].start;
+        });
         sortedTally.push({
             target: voteTarget,
-            voters: voteMap[voteTarget]
+            voters: voters
         });
     }
     sortedTally.sort((a: any, b: any) => {

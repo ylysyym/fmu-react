@@ -27,8 +27,7 @@ function getSavedData(): any {
     }
 }
 
-const threadId = getThreadId();
-const store = createStore(combineReducer, getSavedData(), applyMiddleware(autosave(threadId), autoPopulateMod));
+const store = createStore(combineReducer, getSavedData(), applyMiddleware(autosave(getThreadId()), autoPopulateMod));
 
 window.onload = function () {
     if (store.getState().config.isActive === true) {
