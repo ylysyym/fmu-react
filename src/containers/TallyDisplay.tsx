@@ -27,7 +27,7 @@ export class TallyView extends React.Component<Props, {}> {
             return (
                 <div>
                     <div className="vote-target">{voteItem.target}</div>
-                    <div className="vote-count">({voteItem.voters.length})</div>
+                    <div className="vote-count">({voteItem.voteCount})</div>
                     <span>{voterList}</span>
                 </div>
             );

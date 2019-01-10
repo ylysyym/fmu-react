@@ -57,12 +57,16 @@ export function convertPageDataToVotes(pageData: { [page: number]: PostData }): 
 }
 
 function getVoteTarget(line: string): string {
-    return line.split(VoteKeyword.VOTE).pop().trim();
+    return line.split(VoteKeyword.VOTE).pop().replace(/^[:.\s]+|[:.\s]+$/g, "");
 }
 
 // Votes that come before an unvote do not count
 function containsVote(line: string): boolean {
-    return line.split(VoteKeyword.UNVOTE).pop().includes(VoteKeyword.VOTE);
+    return line.split(VoteKeyword.UNVOTE).pop().includes(VoteKeyword.VOTE) && !isPartOfTally(line);
+}
+
+function isPartOfTally(line: string): boolean {
+    return /^no vote \([0-9]{1,3}\)$/.test(line);
 }
 
 function containsUnvote(line: string): boolean {
@@ -88,6 +92,7 @@ export function getCurrentVoteTally(votes: Vote[], a: number, b: number) {
         }
 
         if (vote.target === latestVote[vote.user]) {
+            // Vote did not change
             continue;
         }
 
@@ -119,22 +124,27 @@ export function getCurrentVoteTally(votes: Vote[], a: number, b: number) {
     let sortedTally = [];
     for (let voteTarget in voteRecord) {
         let voters = [];
+        let voteCount: number = 0;
         for (let voter in voteRecord[voteTarget]) {
             voters.push({
                 user: voter,
                 times: voteRecord[voteTarget][voter]
             });
+            if (!voteRecord[voteTarget][voter][voteRecord[voteTarget][voter].length - 1]["end"]) {
+                voteCount++;
+            }
         }
         voters.sort((a, b) => {
             return a.times[a.times.length - 1].start - b.times[b.times.length - 1].start;
         });
         sortedTally.push({
             target: voteTarget,
-            voters: voters
+            voters: voters,
+            voteCount: voteCount
         });
     }
     sortedTally.sort((a: any, b: any) => {
-        return b.voters.length - a.voters.length;
+        return b.voteCount - a.voteCount;
     });
     return sortedTally;
 }
