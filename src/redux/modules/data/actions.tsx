@@ -1,14 +1,5 @@
-import { getPageNumber } from "../../utils/threadinfo"
-
-export const SEND_PAGE_DATA = "fmu/data/SEND_PAGE_DATA";
-
-export interface PostData {
-    postNumber: number,
-    user: string,
-    content: string,
-    time: string,
-    link: string
-}
+import { getPageNumber } from "../../../utils/threadinfo"
+import { SEND_PAGE_DATA, PostData } from "./types"
 
 export function sendPageData() {
     let pageData: PostData[] = [];
@@ -37,18 +28,5 @@ export function sendPageData() {
         type: SEND_PAGE_DATA,
         page: pageNumber,
         content: pageData
-    }
-}
-
-export function dataReducer(state: any = {}, action: any) {
-    switch (action.type) {
-        case SEND_PAGE_DATA:
-            return Object.assign({}, state, {
-                ...state,
-                [action.page]: action.content
-            });
-
-        default:
-            return state;
     }
 }

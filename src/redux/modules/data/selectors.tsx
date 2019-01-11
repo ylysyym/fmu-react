@@ -1,4 +1,4 @@
-import { PostData } from "../redux/modules/data"
+import { PostData } from "./types"
 
 enum VoteKeyword {
     VOTE = "vote",
@@ -25,14 +25,8 @@ interface TallyItem {
 
 interface Tally extends Array<TallyItem> { }
 
-interface DetailedTally {
-    [voteTarget: string]: {
-
-    }
-}
-
-export function getTally(pageData: { [page: number]: PostData }): Object {
-    let votes = extractVotes(pageData);
+export function getTally(state: any): Object {
+    let votes = extractVotes(state.data);
     let tally = generateTally(votes, 0, 1000);
     return tally;
 }

@@ -8,6 +8,9 @@ import { ConnectedTallyPanel } from "./TallyPanel"
 import { ConnectedConfigPanel } from "./ConfigPanel"
 import { SettingsPanel } from "./SettingsPanel"
 
+import { isGameActive } from "~/redux/modules/config"
+import { getActiveTab } from "~/redux/modules/tabs"
+
 interface Props {
     isActive: boolean;
     activeTab: number;
@@ -47,8 +50,8 @@ class App extends React.Component<Props, {}> {
 
 function mapStateToProps(state: any) {
     return {
-        isActive: state.config.isActive,
-        activeTab: state.ui.tab
+        isActive: isGameActive(state),
+        activeTab: getActiveTab(state)
     };
 }
 

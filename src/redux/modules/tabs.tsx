@@ -48,3 +48,7 @@ export function tabReducer(state: any = initialTabState, action: any) {
             return state;
     }
 }
+
+export function getActiveTab(state: any): number {
+    return state.ui.tab;
+}
