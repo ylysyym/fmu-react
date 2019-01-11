@@ -17,23 +17,37 @@ interface Vote {
     postNumber: number
 }
 
+interface TallyItem {
+    target: string,
+    voters: Object[],
+    voteCount: number
+}
+
+interface Tally extends Array<TallyItem> { }
+
 interface DetailedTally {
     [voteTarget: string]: {
 
     }
 }
 
-export function convertPageDataToVotes(pageData: { [page: number]: PostData }): Vote[] {
+export function getTally(pageData: { [page: number]: PostData }): Object {
+    let votes = extractVotes(pageData);
+    let tally = generateTally(votes, 0, 1000);
+    return tally;
+}
+
+function extractVotes(pageData: { [page: number]: PostData }): Vote[] {
     let combinedPageData: PostData[] = [];
     for (let page in pageData) {
         combinedPageData = combinedPageData.concat(pageData[page]);
     }
 
-    let result: Vote[] = [];
+    let voteList: Vote[] = [];
     for (const item of combinedPageData) {
         const line: string = item.content.toLowerCase();
         if (containsUnvote(line)) {
-            result.push({
+            voteList.push({
                 user: item.user,
                 type: VoteType.UNVOTE,
                 target: null,
@@ -41,7 +55,7 @@ export function convertPageDataToVotes(pageData: { [page: number]: PostData }): 
             });
         }
         if (containsVote(line)) {
-            result.push({
+            voteList.push({
                 user: item.user,
                 type: VoteType.VOTE,
                 target: getVoteTarget(line),
@@ -50,10 +64,10 @@ export function convertPageDataToVotes(pageData: { [page: number]: PostData }): 
         }
     }
 
-    result.sort((a: Vote, b: Vote) => {
+    voteList.sort((a: Vote, b: Vote) => {
         return a.postNumber - b.postNumber;
     });
-    return result;
+    return voteList;
 }
 
 function getVoteTarget(line: string): string {
@@ -73,10 +87,9 @@ function containsUnvote(line: string): boolean {
     return line.includes(VoteKeyword.UNVOTE);
 }
 
-export function getCurrentVoteTally(votes: Vote[], a: number, b: number) {
-    let tallyContainer = {};
-    let voteRecord: any = {};
-    let latestVote: any = {};
+function generateTally(votes: Vote[], a: number, b: number): Tally {
+    let voteRecord: { [index: string]: { [index: string]: { start: number, end?: number }[] } } = {};
+    let latestVote: { [index: string]: string } = {};
     for (let vote of votes) {
         if (vote.postNumber < a) {
             continue;
@@ -87,6 +100,7 @@ export function getCurrentVoteTally(votes: Vote[], a: number, b: number) {
 
         if (!(vote.user in latestVote)) {
             if (vote.type === VoteType.UNVOTE) {
+                // Unvote is unnecessary
                 continue;
             }
         }
@@ -121,7 +135,7 @@ export function getCurrentVoteTally(votes: Vote[], a: number, b: number) {
         }
     }
 
-    let sortedTally = [];
+    let tally: Tally = [];
     for (let voteTarget in voteRecord) {
         let voters = [];
         let voteCount: number = 0;
@@ -137,14 +151,14 @@ export function getCurrentVoteTally(votes: Vote[], a: number, b: number) {
         voters.sort((a, b) => {
             return a.times[a.times.length - 1].start - b.times[b.times.length - 1].start;
         });
-        sortedTally.push({
+        tally.push({
             target: voteTarget,
             voters: voters,
             voteCount: voteCount
         });
     }
-    sortedTally.sort((a: any, b: any) => {
+    tally.sort((a: any, b: any) => {
         return b.voteCount - a.voteCount;
     });
-    return sortedTally;
+    return tally;
 }

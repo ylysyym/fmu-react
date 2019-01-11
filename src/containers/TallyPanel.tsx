@@ -1,8 +1,8 @@
 import * as React from "react"
 import { connect } from "react-redux"
 
-import { getCurrentVoteTally, convertPageDataToVotes } from "../utils/tally"
-import { TallyView } from "./TallyDisplay"
+import { getTally } from "../utils/tally"
+import { TallyView } from "./TallyView"
 
 interface Props {
     pageData: any
@@ -11,7 +11,7 @@ interface Props {
 class TallyPanel extends React.Component<Props, {}> {
     render = () => {
         return <div>
-            <TallyView tallyData={getCurrentVoteTally(convertPageDataToVotes(this.props.pageData), 0, 1000)} />
+            <TallyView tallyData={getTally(this.props.pageData)} />
         </div>
     }
 }

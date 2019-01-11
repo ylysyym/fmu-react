@@ -11,9 +11,9 @@ export class TallyView extends React.Component<Props, {}> {
                 const timeList = voter.times.map((range: any) => {
                     let result: string;
                     if ("end" in range) {
-                        result = (range.start ? range.start : "?") + "-" + range.end;
+                        result = "#" + range.start + "-" + range.end;
                     } else {
-                        result = range.start;
+                        result = "#" + range.start;
                     }
                     return <span>{result}</span>;
                 });
