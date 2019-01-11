@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux"
-import { startGame, stopGame } from "../redux/modules/config"
-import { sendPageData } from "../redux/modules/data"
+import { startGame, stopGame } from "~/redux/modules/config"
+import { sendPageData } from "~/redux/modules/data"
 
 interface Props {
     isGameActive: boolean,

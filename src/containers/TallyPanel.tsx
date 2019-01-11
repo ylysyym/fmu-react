@@ -1,7 +1,7 @@
 import * as React from "react"
 import { connect } from "react-redux"
 
-import { getTally } from "../redux/modules/data"
+import { getTally } from "~/redux/modules/data"
 import { TallyView } from "./TallyView"
 
 interface Props {

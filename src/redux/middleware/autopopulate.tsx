@@ -1,6 +1,6 @@
-import { SEND_PAGE_DATA } from "../modules/data"
-import { addModerator } from "../modules/config"
-import { getPageNumber } from "../../utils/threadinfo"
+import { SEND_PAGE_DATA } from "~/redux/modules/data"
+import { addModerator } from "~/redux/modules/config"
+import { getPageNumber } from "~/utils/threadinfo"
 
 export const autoPopulateMod = (store: any) => (next: any) => (action: any) => {
     let result = next(action);

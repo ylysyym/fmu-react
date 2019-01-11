@@ -1,4 +1,4 @@
-import { getPageNumber } from "../../../utils/threadinfo"
+import { getPageNumber } from "~/utils/threadinfo"
 import { SEND_PAGE_DATA, PostData } from "./types"
 
 export function sendPageData() {

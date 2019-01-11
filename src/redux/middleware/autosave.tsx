@@ -1,5 +1,5 @@
-import { START_GAME, STOP_GAME, ADD_MODERATOR, REMOVE_MODERATOR } from "../modules/config"
-import { SEND_PAGE_DATA } from "../modules/data"
+import { START_GAME, STOP_GAME, ADD_MODERATOR, REMOVE_MODERATOR } from "~/redux/modules/config"
+import { SEND_PAGE_DATA } from "~/redux/modules/data"
 
 /**
  * Saves store to localStorage after each action

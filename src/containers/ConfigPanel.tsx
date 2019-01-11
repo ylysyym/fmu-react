@@ -1,7 +1,7 @@
 import * as React from "react"
 import { connect } from "react-redux"
 
-import { addModerator, removeModerator, addPlayer, removePlayer } from "../redux/modules/config"
+import { addModerator, removeModerator, addPlayer, removePlayer } from "~/redux/modules/config"
 
 import { GameModName } from "./GameModName"
 import { PlayerName } from "./PlayerName"
