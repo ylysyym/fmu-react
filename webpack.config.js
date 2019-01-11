@@ -1,5 +1,6 @@
 const webpack = require("webpack");
 const fs = require("fs");
+const path = require("path");
 
 const userscriptHeader = fs.readFileSync("./userscriptHeader.js", "utf-8");
 const styleRules = fs.readFileSync("./src/style.css", "utf-8");
@@ -59,7 +60,10 @@ module.exports = [/*{ //Build for Chrome extension
     devtool: "source-map",
 
     resolve: {
-        extensions: [".ts", ".tsx", ".js"]
+        extensions: [".ts", ".tsx", ".js"],
+        alias: {
+            "~": path.resolve(__dirname, "src/")
+        }
     },
 
     module: {
