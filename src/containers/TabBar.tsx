@@ -1,7 +1,7 @@
 import * as React from "react"
 import { connect } from "react-redux"
 
-import { switchTallyTab, switchConfigTab, switchSettingsTab } from "~/redux/modules/tabs"
+import { switchTallyTab, switchConfigTab, switchSettingsTab } from "~/redux/modules/ui"
 
 interface Props {
     activeTab: number,

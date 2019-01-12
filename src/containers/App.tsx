@@ -9,7 +9,7 @@ import { ConnectedConfigPanel } from "./ConfigPanel"
 import { SettingsPanel } from "./SettingsPanel"
 
 import { isGameActive } from "~/redux/modules/config"
-import { getActiveTab } from "~/redux/modules/tabs"
+import { getActiveTab } from "~/redux/modules/ui"
 
 interface Props {
     isActive: boolean;
