@@ -1,4 +1,11 @@
-import { START_GAME, STOP_GAME, ADD_MODERATOR, REMOVE_MODERATOR } from "~/redux/modules/config"
+import {
+    START_GAME,
+    STOP_GAME,
+    ADD_MODERATOR,
+    REMOVE_MODERATOR,
+    ADD_PLAYER,
+    REMOVE_PLAYER
+} from "~/redux/modules/config"
 import { SEND_PAGE_DATA } from "~/redux/modules/data"
 
 /**
@@ -12,6 +19,8 @@ export const autosave = (uid: number) => {
             case START_GAME:
             case ADD_MODERATOR:
             case REMOVE_MODERATOR:
+            case ADD_PLAYER:
+            case REMOVE_PLAYER:
                 localStorage.setItem("config" + String(uid), JSON.stringify(store.getState().config));
                 break;
             case STOP_GAME:
