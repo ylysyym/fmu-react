@@ -25,7 +25,7 @@ interface TallyItem {
 
 interface Tally extends Array<TallyItem> { }
 
-export function getTally(state: any): Object {
+export function getTally(state: any): Tally {
     let votes = extractVotes(state.data);
     let tally = generateTally(votes, 0, 1000);
     return tally;
