@@ -23,3 +23,7 @@
 .voter .post-number {
     display: inline-block;
 }
+
+.vote-range {
+    display: inline-block;
+}

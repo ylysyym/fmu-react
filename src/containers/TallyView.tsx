@@ -9,18 +9,25 @@ export class TallyView extends React.Component<Props, {}> {
         const tally = this.props.tallyData.map((voteItem: any) => {
             const voterList = voteItem.voters.map((voter: any) => {
                 const timeList = voter.times.map((range: any) => {
-                    let result: string;
+                    let result;
                     if ("end" in range) {
-                        result = "#" + range.start + "-" + range.end;
+                        //result = "#" + range.start + "-" + range.end;
+                        result = <div className="vote-range">
+                            <a href="#">#{range.start}</a>
+                            -
+                            <a href="#">#{range.end}</a>
+                        </div>
                     } else {
-                        result = "#" + range.start;
+                        result = <div className="vote-range">
+                            <a href="#">#{range.start}</a>
+                        </div>
                     }
                     return <span>{result}</span>;
                 });
                 return (
                     <div className="voter">
                         <div className="player-name">{voter.user}</div>
-                        <div className="post-number">{timeList}</div>
+                        <div className="post-number">({timeList})</div>
                     </div>
                 );
             });
