@@ -4,7 +4,11 @@ import {
     ADD_MODERATOR,
     REMOVE_MODERATOR,
     ADD_PLAYER,
-    REMOVE_PLAYER
+    REMOVE_PLAYER,
+    ADD_DAY,
+    REMOVE_DAY,
+    CHANGE_DAY_START,
+    CHANGE_DAY_END
 } from "./types"
 
 const initialGameState = {
@@ -53,8 +57,19 @@ export default function configReducer(state: any = initialGameState, action: any
                 players: state.players.filter((player: any) => player !== action.name)
             });
 
+        case ADD_DAY:
+            return Object.assign({}, state, {
+                ...state,
+                days: [...state.days, action.day]
+            });
+
+        case REMOVE_DAY:
+            return Object.assign({}, state, {
+                ...state,
+                days: [...state.days, action.day]
+            });
+
         default:
             return state;
-
     }
 }

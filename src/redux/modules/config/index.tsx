@@ -5,7 +5,11 @@ import {
     ADD_MODERATOR,
     REMOVE_MODERATOR,
     ADD_PLAYER,
-    REMOVE_PLAYER
+    REMOVE_PLAYER,
+    ADD_DAY,
+    REMOVE_DAY,
+    CHANGE_DAY_START,
+    CHANGE_DAY_END
 } from "./types"
 import {
     startGame,
@@ -26,6 +30,10 @@ export {
     REMOVE_MODERATOR,
     ADD_PLAYER,
     REMOVE_PLAYER,
+    ADD_DAY,
+    REMOVE_DAY,
+    CHANGE_DAY_START,
+    CHANGE_DAY_END,
     startGame,
     stopGame,
     addModerator,

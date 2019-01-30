@@ -4,3 +4,7 @@ export const ADD_MODERATOR = "fmu/config/ADD_MODERATOR"
 export const REMOVE_MODERATOR = "fmu/config/REMOVE_MODERATOR"
 export const ADD_PLAYER = "fmu/config/ADD_PLAYER";
 export const REMOVE_PLAYER = "fmu/config/REMOVE_PLAYER";
+export const ADD_DAY = "fmu/config/ADD_DAY";
+export const REMOVE_DAY = "fmu/config/REMOVE_DAY";
+export const CHANGE_DAY_START = "fmu/config/CHANGE_DAY_START";
+export const CHANGE_DAY_END = "fmu/config/CHANGE_DAY_END";
