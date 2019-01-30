@@ -15,7 +15,18 @@ interface Props {
     removePlayer: (player: string) => void;
 }
 
-class ConfigPanel extends React.Component<Props, {}> {
+interface State {
+    isTextboxOpen: boolean;
+}
+
+class ConfigPanel extends React.Component<Props, State> {
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            isTextboxOpen: false
+        };
+    }
+
     addMod = () => {
         let newMod: string = prompt("Enter the name of the game moderator you would like to add:");
         if (newMod) {
@@ -28,6 +39,12 @@ class ConfigPanel extends React.Component<Props, {}> {
         if (newPlayer) {
             this.props.addPlayer(newPlayer);
         }
+    }
+
+    togglePlayerListPasteArea = () => {
+        this.setState((state: any) => ({
+            isTextboxOpen: !state.isTextboxOpen
+        }));
     }
 
     render = () => {
@@ -48,6 +65,11 @@ class ConfigPanel extends React.Component<Props, {}> {
                         {playerList}
                     </ol>
                     <button onClick={this.addPlayer}>+</button>
+                    <button onClick={this.togglePlayerListPasteArea}>Import from list</button>
+                    {this.state.isTextboxOpen ? <div>
+                        <textarea></textarea>
+                        <button>Add</button>
+                    </div> : null}
                 </div>
             </div>
         );
