@@ -23,6 +23,7 @@ export const autosave = (uid: number) => {
             case REMOVE_PLAYER:
                 localStorage.setItem("config" + String(uid), JSON.stringify(store.getState().config));
                 break;
+
             case STOP_GAME:
                 try {
                     localStorage.removeItem("config" + String(uid));
@@ -31,9 +32,11 @@ export const autosave = (uid: number) => {
                     // Do nothing
                 }
                 break;
+
             case SEND_PAGE_DATA:
                 localStorage.setItem("data" + String(uid), JSON.stringify(store.getState().data));
                 break;
+
             default:
                 break;
         }
