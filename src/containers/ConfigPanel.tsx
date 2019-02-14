@@ -71,6 +71,10 @@ class ConfigPanel extends React.Component<Props, State> {
                         <button>Add</button>
                     </div> : null}
                 </div>
+                <div id="days-panel">
+                    <span>Days</span>
+                    <button>Add day</button>
+                </div>
             </div>
         );
     }
